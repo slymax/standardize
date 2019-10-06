@@ -1,7 +1,7 @@
 let items = [];
 const fs = require("fs");
 fs.readdir(process.argv[2], (error, files) => {
-    for (file in files) {
+    for (const file of files) {
         fs.readFile(process.argv[2] + "/" + file, (error, data) => {
             data = JSON.parse(data);
             let title = data.text.split("\n")[0];
