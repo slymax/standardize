@@ -1,8 +1,7 @@
 let items = [];
 const fs = require("fs");
 fs.readdir(process.argv[2], (error, files) => {
-    let remaining = files.length;
-    files.forEach(file => {
+    for (file in files) {
         fs.readFile(process.argv[2] + "/" + file, (error, data) => {
             data = JSON.parse(data);
             let title = data.text.split("\n")[0];
@@ -20,12 +19,9 @@ fs.readdir(process.argv[2], (error, files) => {
                 },
                 "updated_at": new Date(data.date_modified).toISOString()
             });
-            remaining--;
-            if (remaining == 0) {
-                fs.writeFile("notes.txt", JSON.stringify({"items":items}), error => {
-                    if (error) console.log(error);
-                });
-            };
         });
+    };
+    fs.writeFile("notes.txt", JSON.stringify({"items":items}), error => {
+        if (error) console.log(error);
     });
 });
